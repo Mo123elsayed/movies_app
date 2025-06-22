@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/features/presentations/ui_screens/movie_details.dart';
+// import 'package:movies_app/features/presentations/ui_screens/movie_details.dart';
+import 'package:movies_app/movies/presentation/screens/movie_details.dart';
 
 class HorizontalMoviesItem extends StatelessWidget {
   final String id;
@@ -28,12 +30,13 @@ class HorizontalMoviesItem extends StatelessWidget {
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.asset(
-            imageUrl,
-            fit: BoxFit.cover,
-            width: screenSize.width,
-            height: screenSize.height * 0.3,
-          ),
+          child: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
         ),
       ),
     );

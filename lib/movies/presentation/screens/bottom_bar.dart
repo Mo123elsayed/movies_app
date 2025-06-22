@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/app_data.dart';
 import 'package:movies_app/core/theme/app_color.dart';
-import 'package:movies_app/features/presentations/ui_screens/watch_list_screen.dart';
-import 'package:movies_app/features/presentations/widgets/horizontal_movies_item.dart';
+// import 'package:movies_app/features/presentations/ui_screens/watch_list_screen.dart';
+import 'package:movies_app/movies/presentation/screens/watch_list_screen.dart';
 
 /// an introduction screen to our app
 ///
-class IntroScreen extends StatefulWidget {
-  const IntroScreen({super.key});
+class BottomBar extends StatefulWidget {
+  const BottomBar({super.key});
 
   @override
-  State<IntroScreen> createState() => _IntroScreenState();
+  State<BottomBar> createState() => _BottomBarState();
 }
 
 String searchText = '';
 
-class _IntroScreenState extends State<IntroScreen> {
+class _BottomBarState extends State<BottomBar> {
   int _screenIndex = 0;
-  void _selectedTab(int index) {
+void _selectedTab(int index) {
     setState(() {
       _screenIndex = index;
     });
@@ -25,15 +24,19 @@ class _IntroScreenState extends State<IntroScreen> {
 
   /// List of Map to Navigate around the screens
   final List<Map<String, dynamic>> _screens = [
-    {'title': 'Intro Screen', 'screen': IntroScreen()},
-    {'title': 'Search Screen', 'screen': IntroScreen()},
+    {'title': 'Intro Screen', 'screen': BottomBar()},
+    // {'title': 'Search Screen', 'screen': IntroScreen()},
     {'title': 'Watch List', 'screen': WatchListScreen()},
   ];
   @override
   Widget build(BuildContext context) {
     ///
+    // final routeArgs =
+    //     ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     final routeArgs =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
+        ModalRoute.of(context)?.settings.arguments as Map<String, String>? ??
+        {};
+
     ///
     final movieId = routeArgs['id'];
     final movieImageUrl = routeArgs['imageUrl'];
@@ -59,10 +62,10 @@ class _IntroScreenState extends State<IntroScreen> {
               icon: Icon(Icons.home_rounded),
               label: 'Home',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search_rounded),
-              label: 'Search',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.search_rounded),
+            //   label: 'Search',
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bookmark_outline_rounded),
               label: 'Watch List',

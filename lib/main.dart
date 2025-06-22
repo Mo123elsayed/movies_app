@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/features/presentations/ui_screens/bottom_bar.dart';
-import 'package:movies_app/features/presentations/ui_screens/movie_details.dart';
-import 'package:movies_app/features/presentations/ui_screens/watch_list_screen.dart';
+import 'package:movies_app/movies/presentation/screens/bottom_bar.dart';
+import 'package:movies_app/movies/presentation/screens/movie_details.dart';
+import 'package:movies_app/movies/presentation/screens/watch_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: IntroScreen(),
       routes: {
-        '/': (context) => IntroScreen(),
+        '/': (context) => BottomBar(),
         MovieDetails.screenRoute: (context) => MovieDetails(),
         WatchListScreen.screenRoute: (context) => WatchListScreen(),
       },
