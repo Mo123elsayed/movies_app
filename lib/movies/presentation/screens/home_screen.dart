@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/app_data.dart';
 import 'package:movies_app/core/theme/app_color.dart';
 import 'package:movies_app/movies/presentation/controllers/now_playing_cubit/cubit/now_playing_cubit.dart';
+import 'package:movies_app/movies/presentation/controllers/popular_cubit/popular_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/top_rated_cubit/top_rated_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/upcoming_cubit/upcoming_cubit.dart';
 import 'package:movies_app/movies/presentation/screens/now_playing_screen.dart';
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
           create: (context) => NowPlayingCubit()..getNowPlayingMovies(),
         ),
         BlocProvider(create: (context) => TopRatedCubit()..getTopRatedMovies()),
+        BlocProvider(create: (context) => PopularCubit()..getPopularMovies()),
       ],
       child: DefaultTabController(
         length: titleBar.length,
