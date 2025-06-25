@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/movies/presentation/screens/bottom_bar.dart';
+import 'package:movies_app/movies/presentation/screens/home_screen.dart';
 import 'package:movies_app/movies/presentation/screens/movie_details.dart';
 import 'package:movies_app/movies/presentation/screens/watch_list_screen.dart';
 
@@ -24,6 +25,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => BottomBar(),
         MovieDetails.screenRoute: (context) => MovieDetails(),
         WatchListScreen.screenRoute: (context) => WatchListScreen(),
+        HomeScreen.screenRoute:(context)=> HomeScreen(),
+        
       },
     );
   }

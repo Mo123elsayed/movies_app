@@ -17,7 +17,6 @@ class MovieDetails extends StatelessWidget {
     final movieId = routeArgs['id'] ?? '';
     final selectedMovie = horizontalMovies.firstWhere(
       (movie) => movie.id == movieId,
-      orElse: () => horizontalMovies.first,
     );
 
     return Scaffold(

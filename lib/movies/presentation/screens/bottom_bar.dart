@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/theme/app_color.dart';
+import 'package:movies_app/movies/presentation/screens/home_screen.dart';
 // import 'package:movies_app/features/presentations/ui_screens/watch_list_screen.dart';
 import 'package:movies_app/movies/presentation/screens/watch_list_screen.dart';
 
@@ -16,7 +17,7 @@ String searchText = '';
 
 class _BottomBarState extends State<BottomBar> {
   int _screenIndex = 0;
-void _selectedTab(int index) {
+  void _selectedTab(int index) {
     setState(() {
       _screenIndex = index;
     });
@@ -24,7 +25,7 @@ void _selectedTab(int index) {
 
   /// List of Map to Navigate around the screens
   final List<Map<String, dynamic>> _screens = [
-    {'title': 'Intro Screen', 'screen': BottomBar()},
+    {'title': 'Intro Screen', 'screen': HomeScreen()},
     // {'title': 'Search Screen', 'screen': IntroScreen()},
     {'title': 'Watch List', 'screen': WatchListScreen()},
   ];
@@ -33,13 +34,13 @@ void _selectedTab(int index) {
     ///
     // final routeArgs =
     //     ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    final routeArgs =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>? ??
-        {};
+    // final routeArgs =
+    //     ModalRoute.of(context)?.settings.arguments as Map<String, String>? ??
+    //     {};
 
-    ///
-    final movieId = routeArgs['id'];
-    final movieImageUrl = routeArgs['imageUrl'];
+    // ///
+    // final movieId = routeArgs['id'];
+    // final movieImageUrl = routeArgs['imageUrl'];
 
     return Scaffold(
       backgroundColor: AppColor.black,

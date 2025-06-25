@@ -1,36 +1,56 @@
-class TopRatedMoviesModel {
+class   NowPlayingMoviesModel {
+  final Dates dates;
   final int page;
   final List<Movie> results;
   final int totalPages;
   final int totalResults;
 
-  TopRatedMoviesModel({
+  NowPlayingMoviesModel({
+    required this.dates,
     required this.page,
     required this.results,
     required this.totalPages,
     required this.totalResults,
   });
 
-  factory TopRatedMoviesModel.fromJson(Map<String, dynamic> json) {
-    return TopRatedMoviesModel(
+  factory NowPlayingMoviesModel.fromJson(Map<String, dynamic> json) {
+    return NowPlayingMoviesModel(
+      dates: Dates.fromJson(json['dates']),
       page: json['page'],
-      results: List<Movie>.from(json['results'].map((x) => Movie.fromJson(x))),
+      results: List<Movie>.from(json['results'].map((e) => Movie.fromJson(e))),
       totalPages: json['total_pages'],
       totalResults: json['total_results'],
     );
   }
 }
 
+class Dates {
+  final String maximum;
+  final String minimum;
+
+  Dates({
+    required this.maximum,
+    required this.minimum,
+  });
+
+  factory Dates.fromJson(Map<String, dynamic> json) {
+    return Dates(
+      maximum: json['maximum'],
+      minimum: json['minimum'],
+    );
+  }
+}
+
 class Movie {
   final bool adult;
-  final String? backdropPath;
+  final String backdropPath;
   final List<int> genreIds;
   final int id;
   final String originalLanguage;
   final String originalTitle;
   final String overview;
   final double popularity;
-  final String? posterPath;
+  final String posterPath;
   final String releaseDate;
   final String title;
   final bool video;
