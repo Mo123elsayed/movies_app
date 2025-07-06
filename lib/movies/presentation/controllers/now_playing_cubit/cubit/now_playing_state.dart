@@ -14,7 +14,7 @@ final class NowPlayingFailure extends NowPlayingState {
    const NowPlayingFailure( this.errorMessage);
 }
 final class NowPlayingSuccess extends NowPlayingState {
-  final NowPlayingMoviesModel nowPlayingMovies;
+  final List<Movie> nowPlayingMovies;
 
   const NowPlayingSuccess(this.nowPlayingMovies);
 }

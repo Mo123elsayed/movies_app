@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies_app/core/theme/app_color.dart';
 import 'package:movies_app/movies/presentation/screens/home_screen.dart';
 // import 'package:movies_app/features/presentations/ui_screens/watch_list_screen.dart';
@@ -43,7 +44,7 @@ class _BottomBarState extends State<BottomBar> {
     // final movieImageUrl = routeArgs['imageUrl'];
 
     return Scaffold(
-      backgroundColor: AppColor.black,
+      backgroundColor: AppColor.navy,
 
       body: _screens[_screenIndex]['screen'],
       bottomNavigationBar: ClipRRect(
@@ -60,7 +61,7 @@ class _BottomBarState extends State<BottomBar> {
           unselectedItemColor: Colors.grey,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_rounded),
+              icon: Icon(Icons.home_max_rounded),
               label: 'Home',
             ),
             // BottomNavigationBarItem(

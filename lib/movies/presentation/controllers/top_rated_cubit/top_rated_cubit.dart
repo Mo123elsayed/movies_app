@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:movies_app/movies/data/models/movie.dart';
 import 'package:movies_app/movies/data/models/top_rated_movies_model.dart';
 
 part 'top_rated_state.dart';
@@ -9,7 +10,6 @@ class TopRatedCubit extends Cubit<TopRatedState> {
   TopRatedCubit() : super(TopRatedState.initial());
 
   Future<TopRatedMoviesModel> getTopRatedMovies() async {
-    emit(TopRatedState.loading());
     var dio = Dio();
     emit(TopRatedStateLoading());
     try {
@@ -22,12 +22,15 @@ class TopRatedCubit extends Cubit<TopRatedState> {
       var response = await dio.get(
         "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200",
       );
-      final topRatedMovies = TopRatedMoviesModel.fromJson(response.data);
-      emit(TopRatedStateSuccess(topRatedMovies));
-      return topRatedMovies;
+      // final topRatedMovies = TopRatedMoviesModel.fromJson(response.data);
+      final List<Movie> movies = List<Movie>.from(
+        response.data['results'].map((e) => Movie.fromJson(e)),
+      );
+      emit(TopRatedStateSuccess(movies));
+      return movies as TopRatedMoviesModel;
     } catch (e) {
-      emit(TopRatedStateFailure(e.toString()));
-      throw DioException;
+      // emit(TopRatedStateFailure(e.toString()));
+      throw Exception(e.toString());
     }
   }
 }

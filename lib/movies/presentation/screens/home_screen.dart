@@ -1,11 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/app_data.dart';
 import 'package:movies_app/core/theme/app_color.dart';
+import 'package:movies_app/movies/data/models/movie.dart';
 import 'package:movies_app/movies/presentation/controllers/now_playing_cubit/cubit/now_playing_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/popular_cubit/popular_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/top_rated_cubit/top_rated_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/upcoming_cubit/upcoming_cubit.dart';
+import 'package:movies_app/movies/presentation/screens/movie_details_screen.dart';
 import 'package:movies_app/movies/presentation/screens/now_playing_screen.dart';
 import 'package:movies_app/movies/presentation/screens/popular_screen.dart';
 import 'package:movies_app/movies/presentation/screens/top_rated_movies_screen.dart';
@@ -27,8 +30,6 @@ List moviesUrl = [
 ];
 
 class _HomeScreenState extends State<HomeScreen> {
-  final focusNode = FocusNode();
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -43,9 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: DefaultTabController(
         length: titleBar.length,
         child: Scaffold(
-          backgroundColor: Color(0xFF121212),
+          backgroundColor: Color(0xFF242A32),
           appBar: AppBar(
-            backgroundColor: AppColor.black,
+            backgroundColor: AppColor.navy,
             title: Text(
               'What do you want to watch?',
               style: TextStyle(
@@ -60,8 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(15.0),
+
+                /// develop a search bar
                 child: TextField(
-                  focusNode: focusNode,
+                  // focusNode: focusNode,
                   style: TextStyle(
                     color: AppColor.white,
                     decoration: TextDecoration.none,
@@ -99,24 +102,106 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: moviesUrl.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          moviesUrl[index],
-                          fit: BoxFit.cover,
-                          height: 200,
+
+              /// make a horizontal scrollable list
+              BlocProvider(
+                create: (context) => UpcomingCubit()..getUpComingMovies(),
+                child: BlocConsumer<UpcomingCubit, UpcomingState>(
+                  listener: (context, state) {
+                    // TODO: implement listener
+                  },
+                  builder: (context, state) {
+                    if (state is NowPlayingLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(color: AppColor.white),
+                      );
+                    } else if (state is UpcomingFailure) {
+                      return Center(
+                        child: Text(
+                          'Error: ${state.messageError}}',
+                          style: TextStyle(color: AppColor.white),
                         ),
-                      ),
-                    );
+                      );
+                    } else if (state is UpcomingSuccess) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Stack(
+                          children: [
+                            ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.upcomingMoviesModel.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    final movie =
+                                        state.upcomingMoviesModel[index];
+                                    Navigator.pushNamed(
+                                      context,
+                                      MovieDetailsScreen.screenRoute,
+                                      arguments: movie,
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                "https://image.tmdb.org/t/p/w500${state.upcomingMoviesModel[index].posterPath}",
+                                            fit: BoxFit.cover,
+                                            height: 200,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: -10,
+                                          left: 0,
+                                          child: Text(
+                                            "${index + 1}",
+                                            style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              // color: Colors.redAccent,
+                                              fontSize: 96,
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle: FontStyle.normal,
+                                              color: AppColor.navy,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: -10,
+                                          left: 0,
+                                          child: Text(
+                                            "${index + 1}",
+                                            style: TextStyle(
+                                              // color: Colors.redAccent,
+                                              fontSize: 96,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Poppins",
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..color = Colors.blueAccent
+                                                ..strokeWidth = 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    // Always return a widget
+                    return SizedBox.shrink();
                   },
                 ),
               ),
@@ -136,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           name.title,
                           style: const TextStyle(
-                            fontFamily: 'Sora',
+                            fontFamily: 'Montserrat',
                             fontSize: 15,
                           ),
                         ),

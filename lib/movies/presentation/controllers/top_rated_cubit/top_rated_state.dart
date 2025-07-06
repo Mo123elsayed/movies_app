@@ -28,7 +28,7 @@ final class TopRatedStateLoading extends TopRatedState {
 }
 
 final class TopRatedStateSuccess extends TopRatedState {
-  final TopRatedMoviesModel topRatedMovies;
+  final List<Movie> topRatedMovies;
    const TopRatedStateSuccess(this.topRatedMovies)
     : super(status: BaseStatus.success);
 }

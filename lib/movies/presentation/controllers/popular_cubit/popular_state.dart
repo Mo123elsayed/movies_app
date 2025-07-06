@@ -13,10 +13,10 @@ final class PopularLoading extends PopularState {}
 
 final class PopularFailure extends PopularState {
   final String messageError;
-  PopularFailure(this.messageError);
+  const PopularFailure(this.messageError);
 }
 
 final class PopularSuccess extends PopularState {
-  final PopularMoviesModel popularMoviesModel;
-  PopularSuccess(this.popularMoviesModel);
+  final List<Movie> popularMoviesModel;
+  const PopularSuccess(this.popularMoviesModel);
 }

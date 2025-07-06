@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:movies_app/movies/data/models/movie.dart';
 import 'package:movies_app/movies/data/models/upcoming_movies_model.dart';
 
 part 'upcoming_state.dart';
@@ -20,11 +21,14 @@ class UpcomingCubit extends Cubit<UpcomingState> {
       final response = await dio.get(
         "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
       );
-      final upcomingMovies = UpcomingMoviesModel.fromJson(response.data);
-      emit(UpcomingSuccess(upcomingMovies));
-      return upcomingMovies;
+      // final upcomingMovies = UpcomingMoviesModel.fromJson(response.data);
+      final List<Movie> movies = List<Movie>.from(
+        response.data['results'].map((e) => Movie.fromJson(e)),
+      );
+      emit(UpcomingSuccess(movies));
+      return movies as UpcomingMoviesModel;
     } catch (e) {
-      emit(UpcomingFailure(e.toString()));
+      // emit(UpcomingFailure(e.toString()));
       throw Exception(e.toString());
     }
   }

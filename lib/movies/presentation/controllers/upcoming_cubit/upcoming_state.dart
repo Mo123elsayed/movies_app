@@ -12,11 +12,11 @@ final class UpcomingInitial extends UpcomingState {}
 final class UpcomingLoading extends UpcomingState {}
 
 final class UpcomingFailure extends UpcomingState {
-  final String mesaageError;
-  const UpcomingFailure(this.mesaageError);
+  final String messageError;
+  const UpcomingFailure(this.messageError);
 }
 
 final class UpcomingSuccess extends UpcomingState {
-  final UpcomingMoviesModel upcomingMoviesModel;
-  UpcomingSuccess(this.upcomingMoviesModel);
+  final List<Movie> upcomingMoviesModel;
+  const UpcomingSuccess(this.upcomingMoviesModel);
 }

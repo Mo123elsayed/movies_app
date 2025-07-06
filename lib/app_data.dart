@@ -46,4 +46,8 @@ const titleBar = [
   CategoryBar(id: 't4', title: 'Popular'),
 ];
 
-// const barContent = [];
+const detailsTitleBar = [
+  CategoryBar(id: 'd1', title: 'About Movie'),
+  CategoryBar(id: 'd2', title: 'Reviews'),
+  CategoryBar(id: 'd3', title: 'Cast'),
+];

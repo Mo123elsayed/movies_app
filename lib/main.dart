@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/movies/presentation/controllers/watch_list/watch_list_cubit.dart';
 import 'package:movies_app/movies/presentation/screens/bottom_bar.dart';
 import 'package:movies_app/movies/presentation/screens/home_screen.dart';
-import 'package:movies_app/movies/presentation/screens/movie_details.dart';
+import 'package:movies_app/movies/presentation/screens/movie_details_screen.dart';
 import 'package:movies_app/movies/presentation/screens/watch_list_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(create: (context) => WatchListCubit(), child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,15 +22,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: "Roboto",
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       // home: IntroScreen(),
       routes: {
         '/': (context) => BottomBar(),
-        MovieDetails.screenRoute: (context) => MovieDetails(),
+        MovieDetailsScreen.screenRoute: (context) => MovieDetailsScreen(),
         WatchListScreen.screenRoute: (context) => WatchListScreen(),
-        HomeScreen.screenRoute:(context)=> HomeScreen(),
-        
+        HomeScreen.screenRoute: (context) => HomeScreen(),
       },
     );
   }

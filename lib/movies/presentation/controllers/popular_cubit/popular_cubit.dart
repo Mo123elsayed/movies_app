@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:movies_app/movies/data/models/movie.dart';
 import 'package:movies_app/movies/data/models/popular_movies_model.dart';
 
 part 'popular_state.dart';
@@ -8,9 +9,9 @@ part 'popular_state.dart';
 class PopularCubit extends Cubit<PopularState> {
   PopularCubit() : super(PopularInitial());
 
-  Future<PopularMoviesModel> getPopularMovies() async{
-    var dio = Dio();
+  Future<PopularMoviesModel> getPopularMovies() async {
     emit(PopularLoading());
+    var dio = Dio();
     try {
       dio.options.headers = {
         "Authorization":
@@ -20,14 +21,15 @@ class PopularCubit extends Cubit<PopularState> {
       var response = await dio.get(
         "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
       );
-      final PopularMoviesModel popularMovies = PopularMoviesModel.fromJson(
-        response.data,
+      final List<Movie> movies = List<Movie>.from(
+        response.data['results'].map((e) => Movie.fromJson(e)),
       );
-      emit(PopularSuccess(popularMovies));
-      return popularMovies;
+      emit(PopularSuccess(movies));
+      return movies as PopularMoviesModel;
     } catch (e) {
       emit(PopularFailure(e.toString()));
-      throw DioException;
+      throw Exception('Failed to fetch popular movies');
     }
   }
+
 }

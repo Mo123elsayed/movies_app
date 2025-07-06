@@ -38,6 +38,9 @@ dependencies:
   dio: ^5.8.0+1
   flutter_bloc: ^9.1.1
   equatable: ^2.0.7
+  hive: ^2.2.3
+  flutter_svg: ^2.2.0
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +94,18 @@ flutter:
         - asset: assets/fonts/static-Roboto_Condensed-Regular.ttf
         - asset: assets/fonts/static-Roboto_Condensed-Bold.ttf
           weight: 800
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 800
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600  
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 800      
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
