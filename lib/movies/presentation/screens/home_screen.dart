@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/app_data.dart';
 import 'package:movies_app/core/theme/app_color.dart';
-import 'package:movies_app/movies/data/models/movie.dart';
 import 'package:movies_app/movies/presentation/controllers/now_playing_cubit/cubit/now_playing_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/popular_cubit/popular_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/top_rated_cubit/top_rated_cubit.dart';
@@ -21,13 +20,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-String searchText = '';
-List moviesUrl = [
-  'https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
-  'https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
-  'https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
-  'https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
-];
+
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
@@ -61,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(15.0),
-
                 /// develop a search bar
                 child: TextField(
                   // focusNode: focusNode,

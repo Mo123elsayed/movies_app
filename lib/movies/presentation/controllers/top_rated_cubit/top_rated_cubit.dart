@@ -2,14 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movies_app/movies/data/models/movie.dart';
-import 'package:movies_app/movies/data/models/top_rated_movies_model.dart';
 
 part 'top_rated_state.dart';
 
 class TopRatedCubit extends Cubit<TopRatedState> {
   TopRatedCubit() : super(TopRatedState.initial());
 
-  Future<TopRatedMoviesModel> getTopRatedMovies() async {
+  Future<void> getTopRatedMovies() async {
     var dio = Dio();
     emit(TopRatedStateLoading());
     try {
@@ -27,10 +26,8 @@ class TopRatedCubit extends Cubit<TopRatedState> {
         response.data['results'].map((e) => Movie.fromJson(e)),
       );
       emit(TopRatedStateSuccess(movies));
-      return movies as TopRatedMoviesModel;
     } catch (e) {
-      // emit(TopRatedStateFailure(e.toString()));
-      throw Exception(e.toString());
+      emit(TopRatedStateFailure(e.toString()));
     }
   }
 }

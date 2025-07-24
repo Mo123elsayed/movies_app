@@ -26,8 +26,9 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           );
         }
         if (state is NowPlayingFailure) {
-          return Center(
-            child: Text('${NowPlayingFailure(state.errorMessage)}'),
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(state.errorMessage),
           );
         }
         if (state is NowPlayingSuccess) {
@@ -94,7 +95,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                       size: 13,
                                     ),
                                     Text(
-                                      '${state.nowPlayingMovies[index].voteAverage}',
+                                      state.nowPlayingMovies[index].voteAverage.toStringAsFixed(1),
                                       style: TextStyle(
                                         color: Colors.yellow,
                                         fontWeight: FontWeight.w600,
@@ -130,7 +131,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         }
         return Center(
           child: Text(
-            "Unknown Error, please try again later!",
+            "No Internet Connection, please try again later.",
             style: TextStyle(
               color: AppColor.white,
               fontSize: 15,

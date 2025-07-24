@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies_app/core/theme/app_color.dart';
 import 'package:movies_app/movies/presentation/screens/home_screen.dart';
-// import 'package:movies_app/features/presentations/ui_screens/watch_list_screen.dart';
+import 'package:movies_app/movies/presentation/screens/search_screen.dart';
 import 'package:movies_app/movies/presentation/screens/watch_list_screen.dart';
 
 /// an introduction screen to our app
@@ -27,7 +26,10 @@ class _BottomBarState extends State<BottomBar> {
   /// List of Map to Navigate around the screens
   final List<Map<String, dynamic>> _screens = [
     {'title': 'Intro Screen', 'screen': HomeScreen()},
-    // {'title': 'Search Screen', 'screen': IntroScreen()},
+    {
+      'title': 'Search Screen',
+      'screen': SearchScreen(),
+    },
     {'title': 'Watch List', 'screen': WatchListScreen()},
   ];
   @override
@@ -45,7 +47,6 @@ class _BottomBarState extends State<BottomBar> {
 
     return Scaffold(
       backgroundColor: AppColor.navy,
-
       body: _screens[_screenIndex]['screen'],
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadiusGeometry.only(
@@ -64,10 +65,10 @@ class _BottomBarState extends State<BottomBar> {
               icon: Icon(Icons.home_max_rounded),
               label: 'Home',
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.search_rounded),
-            //   label: 'Search',
-            // ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search_rounded),
+              label: 'Search',
+            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bookmark_outline_rounded),
               label: 'Watch List',

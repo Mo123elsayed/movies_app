@@ -52,7 +52,7 @@ class MovieDetails {
     required this.voteAverage,
     required this.voteCount,
   });
-
+    /// Deserialize the movie from json data to a MovieDetails object ,because the api returns json data
   factory MovieDetails.fromJson(Map<String, dynamic> json) {
     return MovieDetails(
       adult: json['adult'],
@@ -88,6 +88,35 @@ class MovieDetails {
       voteCount: json['vote_count'],
     );
   }
+
+    /// serialize the movie to json data,before sending it to the api to save it in the phone
+  Map<String, dynamic> toJson() => {
+        'adult': adult,
+        'backdrop_path': backdropPath,
+        'budget': budget,
+        'genres': genres.map((x) => x.toJson()).toList(),
+        'homepage': homepage,
+        'id': id,
+        'imdb_id': imdbId,
+        'origin_country': originCountry,
+        'original_language': originalLanguage,
+        'original_title': originalTitle,
+        'overview': overview,
+        'popularity': popularity,
+        'poster_path': posterPath,
+        'production_companies': productionCompanies.map((x) => x.toJson()).toList(),
+        'production_countries': productionCountries.map((x) => x.toJson()).toList(),
+        'release_date': releaseDate,
+        'revenue': revenue,
+        'runtime': runtime,
+        'spoken_languages': spokenLanguages.map((x) => x.toJson()).toList(),
+        'status': status,
+        'tagline': tagline,
+        'title': title,
+        'video': video,
+        'vote_average': voteAverage,
+        'vote_count': voteCount,
+      };
 }
 
 class Genre {
@@ -99,6 +128,11 @@ class Genre {
   factory Genre.fromJson(Map<String, dynamic> json) {
     return Genre(id: json['id'], name: json['name']);
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+      };
 }
 
 class ProductionCompany {
@@ -122,6 +156,13 @@ class ProductionCompany {
       originCountry: json['origin_country'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'logo_path': logoPath,
+        'name': name,
+        'origin_country': originCountry,
+      };
 }
 
 class ProductionCountry {
@@ -136,6 +177,11 @@ class ProductionCountry {
       name: json['name'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'iso_3166_1': iso31661,
+        'name': name,
+      };
 }
 
 class SpokenLanguage {
@@ -156,4 +202,10 @@ class SpokenLanguage {
       name: json['name'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'english_name': englishName,
+        'iso_639_1': iso6391,
+        'name': name,
+      };
 }

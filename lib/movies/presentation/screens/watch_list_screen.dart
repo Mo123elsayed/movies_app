@@ -69,7 +69,7 @@ class WatchListScreen extends StatelessWidget {
                           width: 110,
                         ),
                       ),
-
+            
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -109,49 +109,50 @@ class WatchListScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              buildDetailsRow(
-                                state,
-                                index,
-                                children: [
-                                  Icon(
-                                    Icons.language_rounded,
-                                    color: Colors.grey.shade700,
-                                  ),
-                                  Text(
-                                    state
-                                        .watchListMovies[index]
-                                        .originalLanguage,
-                                    style: TextStyle(
-                                      color: Colors.grey.shade700,
-                                      fontFamily: "Sora",
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
-                              ),
-                              buildDetailsRow(
-                                state,
-                                index,
-                                children: [
-                                  Icon(
-                                    Icons.calendar_today_outlined,
-                                    color: Colors.grey.shade700,
-                                  ),
-                                  Text(
-                                    state.watchListMovies[index].releaseDate,
-                                    style: TextStyle(
-                                      color: Colors.grey.shade700,
-                                      fontFamily: "Sora",
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              // buildDetailsRow(
+                              //   state,
+                              //   index,
+                              //   children: [
+                              //     Icon(
+                              //       Icons.access_time_rounded,
+                              //       color: Colors.grey.shade700,
+                              //     ),
+                              //     Text(
+                              //       state
+                              //           .watchListMovies[index]
+                              //           .runtime
+                              //           .toString(),
+                              //       style: TextStyle(
+                              //         color: Colors.grey.shade700,
+                              //         fontFamily: "Sora",
+                              //         fontSize: 13,
+                              //         fontWeight: FontWeight.w600,
+                              //       ),
+                              //       textAlign: TextAlign.left,
+                              //     ),
                             ],
                           ),
+                          //     buildDetailsRow(
+                          //       state,
+                          //       index,
+                          //       children: [
+                          //         Icon(
+                          //           Icons.movie_creation_rounded,
+                          //           color: Colors.grey.shade700,
+                          //         ),
+                          //         Text(
+                          //           state.watchListMovies[index].status,
+                          //           style: TextStyle(
+                          //             color: Colors.grey.shade700,
+                          //             fontFamily: "Sora",
+                          //             fontSize: 13,
+                          //             fontWeight: FontWeight.w600,
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     ],

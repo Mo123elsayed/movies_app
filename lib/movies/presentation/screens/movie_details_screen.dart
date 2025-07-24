@@ -33,7 +33,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
               final cubit = context.read<WatchListCubit>();
               final isInWatchList = cubit.isInWatchList(selectedMovie);
               return IconButton(
-                onPressed: () => cubit.toggleWatchList(selectedMovie),
+                onPressed: () => cubit.displayWatchList(selectedMovie),
                 icon: Icon(
                   isInWatchList
                       ? Icons.bookmark_rounded

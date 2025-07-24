@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:movies_app/movies/data/models/now_playing_movies_model.dart';
 
 import '../../../../data/models/movie.dart';
 
@@ -9,7 +8,7 @@ part 'now_playing_state.dart';
 
 class NowPlayingCubit extends Cubit<NowPlayingState> {
   NowPlayingCubit() : super(NowPlayingInitial());
-  Future<NowPlayingMoviesModel> getNowPlayingMovies() async {
+  Future<void> getNowPlayingMovies() async {
     emit(NowPlayingLoading());
     var dio = Dio();
     try {
@@ -21,7 +20,6 @@ class NowPlayingCubit extends Cubit<NowPlayingState> {
       var response = await dio.get(
         "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
       );
-      // final nowPlayingMovies = NowPlayingMoviesModel.fromJson(response.data);
       final List<Movie> movies = List<Movie>.from(
         response.data['results'].map((e) => Movie.fromJson(e)),
       );
@@ -29,6 +27,5 @@ class NowPlayingCubit extends Cubit<NowPlayingState> {
     } catch (e) {
       emit(NowPlayingFailure(e.toString()));
     }
-    throw Exception('Failed to fetch now playing movies');
   }
 }

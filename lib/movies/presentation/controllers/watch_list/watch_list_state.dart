@@ -16,6 +16,5 @@ final class WatchListLoaded extends WatchListState {
   const WatchListLoaded(this.watchListMovies);
 
   @override
-List<Object> get props => [watchListMovies];
-
+  List<Object> get props => [watchListMovies];
 }
