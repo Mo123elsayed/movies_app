@@ -5,11 +5,13 @@ import 'package:movies_app/app_data.dart';
 import 'package:movies_app/core/theme/app_color.dart';
 import 'package:movies_app/movies/presentation/controllers/now_playing_cubit/cubit/now_playing_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/popular_cubit/popular_cubit.dart';
+import 'package:movies_app/movies/presentation/controllers/search_screen_cubit/search_screen_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/top_rated_cubit/top_rated_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/upcoming_cubit/upcoming_cubit.dart';
 import 'package:movies_app/movies/presentation/screens/movie_details_screen.dart';
 import 'package:movies_app/movies/presentation/screens/now_playing_screen.dart';
 import 'package:movies_app/movies/presentation/screens/popular_screen.dart';
+import 'package:movies_app/movies/presentation/screens/search_screen.dart';
 import 'package:movies_app/movies/presentation/screens/top_rated_movies_screen.dart';
 import 'package:movies_app/movies/presentation/screens/upcoming_screen.dart';
 
@@ -19,8 +21,6 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
-
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
@@ -54,8 +54,20 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(15.0),
+
                 /// develop a search bar
                 child: TextField(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BlocProvider(
+                          create: (_) => SearchScreenCubit(),
+                          child: SearchScreen(),
+                        ),
+                      ),
+                    );
+                  },
                   // focusNode: focusNode,
                   style: TextStyle(
                     color: AppColor.white,
@@ -79,7 +91,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                     suffixIcon: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BlocProvider(
+                              create: (_) => SearchScreenCubit(),
+                              child: SearchScreen(),
+                            ),
+                          ),
+                        );
+                      },
                       icon: Icon(
                         Icons.search_rounded,
                         color: Colors.grey,
@@ -117,7 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     } else if (state is UpcomingSuccess) {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.9,
                         child: Stack(
                           children: [
                             ListView.builder(

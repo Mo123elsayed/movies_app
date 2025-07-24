@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:movies_app/core/theme/app_color.dart';
+import 'package:movies_app/movies/data/models/movies_details.dart';
+import 'package:movies_app/movies/presentation/controllers/movie_details_cubit/movie_details_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/watch_list/watch_list_cubit.dart';
+import 'package:movies_app/movies/presentation/screens/movie_details_screen.dart';
 
 class WatchListScreen extends StatelessWidget {
   // const WatchListScreen({super.key});
@@ -28,10 +32,6 @@ class WatchListScreen extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
-        ),
       ),
       body: BlocConsumer<WatchListCubit, WatchListState>(
         listener: (context, state) {
@@ -40,13 +40,34 @@ class WatchListScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is WatchListEmpty) {
             return Center(
-              child: Text(
-                'No movies in watch list,yet!',
-                style: TextStyle(
-                  color: AppColor.white,
-                  fontFamily: "Roboto",
-                  fontSize: 20,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    "assets/images/watchlist-icon.svg",
+                    height: 85,
+                    width: 85,
+                  ),
+                  Text(
+                    "There is no movie Yet!",
+                    style: TextStyle(
+                      color: AppColor.white,
+                      fontSize: 20,
+                      fontFamily: "Sora",
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "Find your movie by Type title, categories, years, etc",
+                    style: TextStyle(
+                      color: AppColor.lightGrey,
+                      fontSize: 16,
+                      fontFamily: "Sora",
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             );
           }
@@ -56,106 +77,158 @@ class WatchListScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 20.0, top: 20),
-                  child: Row(
-                    spacing: 20,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadiusGeometry.circular(16),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://image.tmdb.org/t/p/w500${state.watchListMovies[index].posterPath}",
-                          fit: BoxFit.cover,
-                          height: 170,
-                          width: 110,
+                  child: InkWell(
+                    onTap: () {
+                      // Navigate to movie details screen
+                      Navigator.of(context).pushNamed(
+                        MovieDetailsScreen.screenRoute,
+                        arguments: state.watchListMovies[index],
+                      );
+                    },
+                    child: Row(
+                      spacing: 20,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(16),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                "https://image.tmdb.org/t/p/w500${state.watchListMovies[index].posterPath}",
+                            fit: BoxFit.cover,
+                            height: 190,
+                            width: 110,
+                          ),
                         ),
-                      ),
-            
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            state.watchListMovies[index].title,
-                            style: TextStyle(
-                              color: AppColor.white,
-                              fontFamily: "Sora",
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          SizedBox(height: 20),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: 5,
-                            children: [
-                              buildDetailsRow(
-                                state,
-                                index,
-                                children: [
-                                  Icon(
-                                    Icons.star_border_rounded,
-                                    color: Colors.amber,
+
+                        BlocProvider(
+                          create: (context) => MovieDetailsCubit()
+                            ..getMovieDetails(state.watchListMovies[index].id),
+                          child: BlocConsumer<MovieDetailsCubit, MovieDetailsState>(
+                            listener: (context, state) {
+                              // TODO: implement listener
+                              if (state is MovieDetailsFailure) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(state.errorMessage),
+                                    backgroundColor: Colors.red,
                                   ),
-                                  Text(
-                                    "${state.watchListMovies[index].voteAverage}",
-                                    style: TextStyle(
-                                      color: Colors.amber,
-                                      fontFamily: "Sora",
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
+                                );
+                              }
+                            },
+                            builder: (context, state) {
+                              if (state is MovieDetailsSuccess) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 200,
+                                      height: 100,
+                                      child: Text(
+                                        state.movieDetails.title,
+                                        style: TextStyle(
+                                          color: AppColor.white,
+                                          fontFamily: "Sora",
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
-                                    textDirection: TextDirection.ltr,
-                                  ),
-                                ],
-                              ),
-                              // buildDetailsRow(
-                              //   state,
-                              //   index,
-                              //   children: [
-                              //     Icon(
-                              //       Icons.access_time_rounded,
-                              //       color: Colors.grey.shade700,
-                              //     ),
-                              //     Text(
-                              //       state
-                              //           .watchListMovies[index]
-                              //           .runtime
-                              //           .toString(),
-                              //       style: TextStyle(
-                              //         color: Colors.grey.shade700,
-                              //         fontFamily: "Sora",
-                              //         fontSize: 13,
-                              //         fontWeight: FontWeight.w600,
-                              //       ),
-                              //       textAlign: TextAlign.left,
-                              //     ),
-                            ],
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      spacing: 5,
+                                      children: [
+                                        buildDetailsRow(
+                                          state,
+                                          index,
+                                          children: [
+                                            Icon(
+                                              Icons.star_border_rounded,
+                                              color: Colors.amber,
+                                            ),
+                                            Text(
+                                              "${state.movieDetails.voteAverage.toStringAsFixed(1)}",
+                                              style: TextStyle(
+                                                color: Colors.amber,
+                                                fontFamily: "Sora",
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textDirection: TextDirection.ltr,
+                                            ),
+                                          ],
+                                        ),
+                                        buildDetailsRow(
+                                          state,
+                                          index,
+                                          children: [
+                                            Icon(
+                                              Icons.access_time_rounded,
+                                              color: AppColor.lightGrey,
+                                            ),
+                                            Text(
+                                              state.movieDetails.runtime
+                                                  .toString(),
+                                              style: TextStyle(
+                                                color: Colors.grey.shade700,
+                                                fontFamily: "Sora",
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ],
+                                        ),
+                                        buildDetailsRow(
+                                          state,
+                                          index,
+                                          children: [
+                                            Icon(
+                                              Icons.movie_creation_rounded,
+                                              color: Colors.grey.shade700,
+                                            ),
+                                            Text(
+                                              state.movieDetails.genres[0].name,
+                                              style: TextStyle(
+                                                color: Colors.grey.shade700,
+                                                fontFamily: "Sora",
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        buildDetailsRow(
+                                          state,
+                                          index,
+                                          children: [
+                                            Icon(
+                                              Icons.calendar_month_rounded,
+                                              color: AppColor.lightGrey,
+                                            ),
+                                            Text(
+                                              state
+                                                  .movieDetails
+                                                  .originalLanguage,
+                                              style: TextStyle(
+                                                color: AppColor.lightGrey,
+                                                fontFamily: "Sora",
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              }
+                              return Container();
+                            },
                           ),
-                          //     buildDetailsRow(
-                          //       state,
-                          //       index,
-                          //       children: [
-                          //         Icon(
-                          //           Icons.movie_creation_rounded,
-                          //           color: Colors.grey.shade700,
-                          //         ),
-                          //         Text(
-                          //           state.watchListMovies[index].status,
-                          //           style: TextStyle(
-                          //             color: Colors.grey.shade700,
-                          //             fontFamily: "Sora",
-                          //             fontSize: 13,
-                          //             fontWeight: FontWeight.w600,
-                          //           ),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ],
-                          // ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -177,7 +250,7 @@ class WatchListScreen extends StatelessWidget {
   }
 
   Widget buildDetailsRow(
-    WatchListLoaded state,
+    MovieDetailsSuccess state,
     int index, {
     List<Widget>? children,
   }) {

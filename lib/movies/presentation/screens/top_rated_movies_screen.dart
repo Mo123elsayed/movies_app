@@ -89,9 +89,9 @@ class _TopRatedMoviesScreenState extends State<TopRatedMoviesScreen> {
                                     size: 13,
                                   ),
                                   Text(
-                                    "${state.topRatedMovies[index].voteAverage}",
+                                    "${state.topRatedMovies[index].voteAverage.toStringAsFixed(1)}",
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.yellow,
                                       fontWeight: FontWeight.w600,
                                       fontFamily: "Sora",
                                       fontSize: 10,

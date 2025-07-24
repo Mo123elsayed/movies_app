@@ -8,6 +8,7 @@ sealed class SearchScreenState extends Equatable {
 }
 
 final class SearchScreenInitial extends SearchScreenState {}
+
 final class SearchScreenLoading extends SearchScreenState {}
 
 final class SearchScreenFailure extends SearchScreenState {
@@ -16,10 +17,9 @@ final class SearchScreenFailure extends SearchScreenState {
   const SearchScreenFailure(this.errorMessage);
 }
 
-final class SearchScreenEmpty extends SearchScreenState {
-}
+final class SearchScreenEmpty extends SearchScreenState {}
 
 final class SearchScreenSuccess extends SearchScreenState {
-  final SearchResponse movieDetails;
+  final List<Movie> movieDetails;
   const SearchScreenSuccess(this.movieDetails);
 }

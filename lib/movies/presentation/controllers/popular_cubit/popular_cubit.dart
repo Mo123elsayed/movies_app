@@ -9,7 +9,7 @@ part 'popular_state.dart';
 class PopularCubit extends Cubit<PopularState> {
   PopularCubit() : super(PopularInitial());
 
-  Future<PopularMoviesModel> getPopularMovies() async {
+  Future<void> getPopularMovies() async {
     emit(PopularLoading());
     var dio = Dio();
     try {
@@ -25,11 +25,8 @@ class PopularCubit extends Cubit<PopularState> {
         response.data['results'].map((e) => Movie.fromJson(e)),
       );
       emit(PopularSuccess(movies));
-      return movies as PopularMoviesModel;
     } catch (e) {
       emit(PopularFailure(e.toString()));
-      throw Exception('Failed to fetch popular movies');
     }
   }
-
 }

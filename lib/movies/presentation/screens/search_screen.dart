@@ -5,9 +5,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:movies_app/core/theme/app_color.dart';
 import 'package:movies_app/movies/presentation/controllers/movie_details_cubit/movie_details_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/search_screen_cubit/search_screen_cubit.dart';
+import 'package:movies_app/movies/presentation/screens/movie_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
+  static const String screenRoute = "/searchScreen";
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -24,14 +26,13 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
+    final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: AppColor.navy,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.of(context).pop(),
           icon: Icon(Icons.arrow_back_ios_new_rounded, color: AppColor.white),
         ),
         centerTitle: true,
@@ -45,7 +46,7 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(15.0),
-    
+
             /// develop a search bar
             child: TextField(
               controller: searchController,
@@ -65,11 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   borderSide: BorderSide(color: AppColor.white),
                 ),
                 hintText: 'Search',
-                contentPadding: EdgeInsets.only(
-                  left: 20,
-                  top: 10,
-                  bottom: 10,
-                ),
+                contentPadding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
                 hintStyle: TextStyle(
                   color: Colors.grey,
                   fontSize: 15,
@@ -91,8 +88,9 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: screenSize.height * 0.01),
           Expanded(
+            flex: 1,
             child: BlocConsumer<SearchScreenCubit, SearchScreenState>(
               listener: (context, state) {
                 // TODO: implement listener
@@ -107,7 +105,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   return Center(
                     child: Text(
                       "Error: ${state.errorMessage}",
-                      style: TextStyle(color: Colors.red, fontFamily: 'Sora'),
+                      style: TextStyle(
+                        color: AppColor.white,
+                        fontFamily: 'Sora',
+                      ),
                     ),
                   );
                 }
@@ -118,22 +119,24 @@ class _SearchScreenState extends State<SearchScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          "assets/images/search-icon.svg",
-                          height: 30,
-                          width: 30,
+                          "assets/images/searchIcon.svg",
+                          height: 50,
+                          width: 50,
                         ),
                         Text(
                           "We Are Sorry,We Can Not Find The Movie :(",
                           style: TextStyle(
                             color: AppColor.white,
                             fontFamily: "Sora",
+                            fontSize: 18,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                         Text(
                           "Find your movie by Type title,categories,years, etc",
                           style: TextStyle(
                             fontFamily: "Sora",
-                            color: Colors.grey.shade700,
+                            color: AppColor.lightGrey,
                           ),
                         ),
                       ],
@@ -142,9 +145,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 }
                 if (state is SearchScreenSuccess) {
                   return ListView.builder(
-                    itemCount: state.movieDetails.results.length,
+                    itemCount: state.movieDetails.length,
                     itemBuilder: (context, index) {
-                      final searchedMovie = state.movieDetails.results[index];
+                      final searchedMovie = state.movieDetails[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8.0,
@@ -161,52 +164,108 @@ class _SearchScreenState extends State<SearchScreen> {
                                 width: 100,
                               ),
                             ),
-                            SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 150,
-                                  child: Text(
-                                    searchedMovie.title,
-                                    style: TextStyle(
-                                      color: AppColor.white,
-                                      fontFamily: 'Sora',
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                buildRowDetails(
-                                  childern: [
-                                    Icon(
-                                      Icons.star_border_rounded,
-                                      color: Colors.amberAccent,
-                                    ),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      "${searchedMovie.voteAverage}",
-                                      style: TextStyle(
-                                        color: Colors.amberAccent,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                // buildRowDetails(
-                                //   childern: [
-                                //     Icon(Icons.movie_creation_outlined),
-                                //     SizedBox(width: 4),
-                                //     Text("${searchedMovie.status}"),
-                                //   ],
-                                // ),
-                                // buildRowDetails(
-                                //   childern: [
-                                //     Icon(Icons.access_time_rounded),
-                                //     SizedBox(width: 4),
-                                //     Text("${searchedMovie.runtime}"),
-                                //   ],
-                                // ),
-                              ],
+                            SizedBox(width: screenSize.width * 0.03),
+                            BlocProvider(
+                              create: (context) => MovieDetailsCubit()
+                                ..getMovieDetails(state.movieDetails[index].id),
+                              child: BlocConsumer<MovieDetailsCubit, MovieDetailsState>(
+                                listener: (context, state) {
+                                  // TODO: implement listener
+                                },
+                                builder: (context, state) {
+                                  if (state is MovieDetailsSuccess) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: screenSize.width * 0.4,
+                                          child: Text(
+                                            state.movieDetails.title,
+                                            style: TextStyle(
+                                              color: AppColor.white,
+                                              fontFamily: 'Sora',
+                                              fontSize: 17,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: screenSize.height * 0.01,
+                                        ),
+                                        buildRowDetails(
+                                          childern: [
+                                            Icon(
+                                              Icons.star_border_rounded,
+                                              color: Colors.amberAccent,
+                                            ),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              "${state.movieDetails.voteAverage.toStringAsFixed(1)}",
+                                              style: TextStyle(
+                                                color: Colors.amberAccent,
+                                                fontFamily: "Sora",
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        buildRowDetails(
+                                          childern: [
+                                            Icon(
+                                              Icons.movie_creation_outlined,
+                                              color: AppColor.lightGrey,
+                                            ),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              "${state.movieDetails.genres[0].name}",
+                                              style: TextStyle(
+                                                color: AppColor.lightGrey,
+                                                fontFamily: "Sora",
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        buildRowDetails(
+                                          childern: [
+                                            Icon(
+                                              Icons.access_time_rounded,
+                                              color: AppColor.lightGrey,
+                                            ),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              "${state.movieDetails.runtime} Minutes",
+                                              style: TextStyle(
+                                                color: AppColor.lightGrey,
+                                                fontFamily: "Sora",
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        buildRowDetails(
+                                          childern: [
+                                            Icon(
+                                              Icons.calendar_month,
+                                              color: AppColor.lightGrey,
+                                            ),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              "${state.movieDetails.releaseDate}",
+                                              style: TextStyle(
+                                                color: AppColor.lightGrey,
+                                                fontFamily: "Sora",
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                  return Container();
+                                },
+                              ),
                             ),
                           ],
                         ),

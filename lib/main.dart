@@ -5,6 +5,7 @@ import 'package:movies_app/movies/presentation/controllers/watch_list/watch_list
 import 'package:movies_app/movies/presentation/screens/bottom_bar.dart';
 import 'package:movies_app/movies/presentation/screens/home_screen.dart';
 import 'package:movies_app/movies/presentation/screens/movie_details_screen.dart';
+import 'package:movies_app/movies/presentation/screens/search_screen.dart';
 import 'package:movies_app/movies/presentation/screens/watch_list_screen.dart';
 
 void main() {
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         MovieDetailsScreen.screenRoute: (context) => MovieDetailsScreen(),
         WatchListScreen.screenRoute: (context) => WatchListScreen(),
         HomeScreen.screenRoute: (context) => HomeScreen(),
+        SearchScreen.screenRoute: (context) => SearchScreen(),
       },
     );
   }

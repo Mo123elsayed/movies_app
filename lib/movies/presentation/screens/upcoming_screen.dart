@@ -60,7 +60,9 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                   .length, // Replace with the actual number of items
               itemBuilder: (context, index) {
                 final selectedMovie = state.upcomingMoviesModel[index];
-                return GestureDetector(
+                return InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  splashColor: AppColor.white,
                   onTap: () {
                     Navigator.of(context).pushNamed(
                       MovieDetailsScreen.screenRoute,
@@ -104,7 +106,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                                     size: 13,
                                   ),
                                   Text(
-                                    "${state.upcomingMoviesModel[index].voteAverage}",
+                                    "${state.upcomingMoviesModel[index].voteAverage.toStringAsFixed(1)}",
                                     style: TextStyle(
                                       color: Colors.yellow,
                                       fontWeight: FontWeight.w600,

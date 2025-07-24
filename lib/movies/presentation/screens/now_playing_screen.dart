@@ -45,8 +45,9 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                   .length, // Replace with the actual number of items
               itemBuilder: (context, index) {
                 final selectedMovie = state.nowPlayingMovies[index];
-
-                return GestureDetector(
+                return InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  splashColor: AppColor.white,
                   onTap: () {
                     Navigator.pushNamed(
                       context,
@@ -57,58 +58,55 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Card(
-                        // color: AppColor.primaryColor,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: CachedNetworkImage(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.22,
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                imageUrl:
-                                    'https://image.tmdb.org/t/p/w500${state.nowPlayingMovies[index].posterPath}',
-                                fit: BoxFit.cover,
-                              ),
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.22,
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                              imageUrl:
+                                  'https://image.tmdb.org/t/p/w500${state.nowPlayingMovies[index].posterPath}',
+                              fit: BoxFit.cover,
                             ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                alignment: Alignment.bottomRight,
-                                margin: EdgeInsets.only(right: 2, bottom: 3),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 3,
-                                  horizontal: 5,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.black54,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              alignment: Alignment.bottomRight,
+                              margin: EdgeInsets.only(right: 2, bottom: 3),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 3,
+                                horizontal: 5,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black54,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 13,
+                                  ),
+                                  Text(
+                                    state.nowPlayingMovies[index].voteAverage.toStringAsFixed(1),
+                                    style: TextStyle(
                                       color: Colors.yellow,
-                                      size: 13,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 10,
+                                      fontFamily: "Sora",
                                     ),
-                                    Text(
-                                      state.nowPlayingMovies[index].voteAverage.toStringAsFixed(1),
-                                      style: TextStyle(
-                                        color: Colors.yellow,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 10,
-                                        fontFamily: "Sora",
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: 5),
                       Text(

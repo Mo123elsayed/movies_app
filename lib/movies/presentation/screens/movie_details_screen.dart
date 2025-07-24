@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/app_data.dart';
 import 'package:movies_app/core/theme/app_color.dart';
+import 'package:movies_app/movies/presentation/controllers/movie_details_cubit/movie_details_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/watch_list/watch_list_cubit.dart';
+import 'package:movies_app/movies/presentation/widgets/movie_details.dart';
 
 import '../../data/models/movie.dart';
 
@@ -83,7 +85,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
               /// movie booster
               Positioned(
-                top: screenSize.height * 0.2,
+                top: screenSize.height * 0.22,
                 left: 30,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -116,25 +118,68 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
               ),
             ],
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              buildMovieMetaDataRow(
-                icon: Icons.calendar_today_outlined,
-                movieData: selectedMovie.releaseDate,
-              ),
-              Container(width: 1, height: 20, color: Colors.grey.shade400),
-              buildMovieMetaDataRow(
-                icon: Icons.timer_outlined,
-                movieData: selectedMovie.originalLanguage.toString(),
-              ),
-              Container(width: 1, height: 20, color: Colors.grey.shade400),
-              buildMovieMetaDataRow(
-                icon: Icons.calendar_today_outlined,
-                movieData: selectedMovie.releaseDate,
-              ),
-            ],
+          BlocProvider(
+            create: (context) =>
+                MovieDetailsCubit()..getMovieDetails(selectedMovie.id),
+            child: BlocConsumer<MovieDetailsCubit, MovieDetailsState>(
+              listener: (context, state) {
+                // TODO: implement listener
+                if (state is MovieDetailsFailure) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        state.errorMessage,
+                        style: TextStyle(
+                          fontFamily: "Sora",
+                          fontSize: 16,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state is MovieDetailsSuccess) {
+                  return Column(
+                    children: [
+                      SizedBox(height: screenSize.height * 0.02),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          buildMovieMetaDataRow(
+                            icon: Icons.calendar_month_outlined,
+                            movieData: selectedMovie.releaseDate,
+                          ),
+                          Container(
+                            width: 1,
+                            height: 20,
+                            color: Colors.grey.shade400,
+                          ),
+                          buildMovieMetaDataRow(
+                            icon: Icons.access_time_rounded,
+                            movieData:
+                                state.movieDetails.runtime.toString() +
+                                " minutes",
+                          ),
+                          Container(
+                            width: 1,
+                            height: 20,
+                            color: Colors.grey.shade400,
+                          ),
+                          buildMovieMetaDataRow(
+                            icon: Icons.movie_creation_outlined,
+                            movieData: state.movieDetails.genres[0].name,
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }
+                return Container();
+              },
+            ),
           ),
           SizedBox(height: 20),
           DefaultTabController(
