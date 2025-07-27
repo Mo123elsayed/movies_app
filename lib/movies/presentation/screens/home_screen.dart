@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/app_data.dart';
 import 'package:movies_app/core/theme/app_color.dart';
+import 'package:movies_app/movies/data/models/title_bar.dart';
 import 'package:movies_app/movies/presentation/controllers/now_playing_cubit/cubit/now_playing_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/popular_cubit/popular_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/search_screen_cubit/search_screen_cubit.dart';
@@ -25,6 +25,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => UpcomingCubit()..getUpComingMovies()),
@@ -35,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         BlocProvider(create: (context) => PopularCubit()..getPopularMovies()),
       ],
       child: DefaultTabController(
-        length: titleBar.length,
+        length: mainTitleBar.length,
         child: Scaffold(
           backgroundColor: Color(0xFF242A32),
           appBar: AppBar(
@@ -50,210 +52,227 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          body: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-
-                /// develop a search bar
-                child: TextField(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => BlocProvider(
-                          create: (_) => SearchScreenCubit(),
-                          child: SearchScreen(),
-                        ),
-                      ),
-                    );
-                  },
-                  // focusNode: focusNode,
-                  style: TextStyle(
-                    color: AppColor.white,
-                    decoration: TextDecoration.none,
-                    fontFamily: 'Sora',
-                  ),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(19),
-                      borderSide: BorderSide(color: AppColor.white),
-                    ),
-                    hintText: 'Search',
-                    contentPadding: EdgeInsets.only(
-                      left: 20,
-                      top: 10,
-                      bottom: 10,
-                    ),
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => BlocProvider(
-                              create: (_) => SearchScreenCubit(),
-                              child: SearchScreen(),
-                            ),
-                          ),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.search_rounded,
-                        color: Colors.grey,
-                        size: 30,
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(19),
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[800],
-                  ),
-                ),
-              ),
-
-              /// make a horizontal scrollable list
-              BlocProvider(
-                create: (context) => UpcomingCubit()..getUpComingMovies(),
-                child: BlocConsumer<UpcomingCubit, UpcomingState>(
-                  listener: (context, state) {
-                    // TODO: implement listener
-                  },
-                  builder: (context, state) {
-                    if (state is NowPlayingLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(color: AppColor.white),
-                      );
-                    } else if (state is UpcomingFailure) {
-                      return Center(
-                        child: Text(
-                          'Error: ${state.messageError}}',
-                          style: TextStyle(color: AppColor.white),
-                        ),
-                      );
-                    } else if (state is UpcomingSuccess) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: Stack(
-                          children: [
-                            ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: state.upcomingMoviesModel.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    final movie =
-                                        state.upcomingMoviesModel[index];
-                                    Navigator.pushNamed(
-                                      context,
-                                      MovieDetailsScreen.screenRoute,
-                                      arguments: movie,
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Stack(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            10,
-                                          ),
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                "https://image.tmdb.org/t/p/w500${state.upcomingMoviesModel[index].posterPath}",
-                                            fit: BoxFit.cover,
-                                            height: 200,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: -10,
-                                          left: 0,
-                                          child: Text(
-                                            "${index + 1}",
-                                            style: TextStyle(
-                                              fontFamily: "Poppins",
-                                              // color: Colors.redAccent,
-                                              fontSize: 96,
-                                              fontWeight: FontWeight.w600,
-                                              fontStyle: FontStyle.normal,
-                                              color: AppColor.navy,
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: -10,
-                                          left: 0,
-                                          child: Text(
-                                            "${index + 1}",
-                                            style: TextStyle(
-                                              // color: Colors.redAccent,
-                                              fontSize: 96,
-                                              fontStyle: FontStyle.normal,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: "Poppins",
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..color = Colors.blueAccent
-                                                ..strokeWidth = 1,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    // Always return a widget
-                    return SizedBox.shrink();
-                  },
-                ),
-              ),
-              const SizedBox(height: 15),
-
-              TabBar(
-                physics: const BouncingScrollPhysics(),
-                isScrollable: true,
-                tabAlignment: TabAlignment.center,
-                indicatorColor: AppColor.white,
-                indicatorSize: TabBarIndicatorSize.label,
-                labelColor: AppColor.white,
-                unselectedLabelColor: Colors.grey.shade700,
-                tabs: titleBar
-                    .map(
-                      (name) => Tab(
-                        child: Text(
-                          name.title,
-                          style: const TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-              SizedBox(height: 10),
-              Expanded(
-                child: TabBarView(
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await context.read<UpcomingCubit>().getUpComingMovies();
+              await context.read<NowPlayingCubit>().getNowPlayingMovies();
+              await context.read<TopRatedCubit>().getTopRatedMovies();
+              await context.read<PopularCubit>().getPopularMovies();
+            },
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: screenSize.height),
+                child: Column(
                   children: [
-                    NowPlayingScreen(),
-                    UpcomingScreen(),
-                    TopRatedMoviesScreen(),
-                    PopularScreen(),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+
+                      /// develop a search bar
+                      child: TextField(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => BlocProvider(
+                                create: (_) => SearchScreenCubit(),
+                                child: SearchScreen(),
+                              ),
+                            ),
+                          );
+                        },
+                        // focusNode: focusNode,
+                        style: TextStyle(
+                          color: AppColor.white,
+                          decoration: TextDecoration.none,
+                          fontFamily: 'Sora',
+                        ),
+                        decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(19),
+                            borderSide: BorderSide(color: AppColor.white),
+                          ),
+                          hintText: 'Search',
+                          contentPadding: EdgeInsets.only(
+                            left: 20,
+                            top: 10,
+                            bottom: 10,
+                          ),
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => BlocProvider(
+                                    create: (_) => SearchScreenCubit(),
+                                    child: SearchScreen(),
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.search_rounded,
+                              color: Colors.grey,
+                              size: 30,
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(19),
+                          ),
+                          filled: true,
+                          fillColor: Colors.grey[800],
+                        ),
+                      ),
+                    ),
+
+                    /// make a horizontal scrollable list
+                    BlocProvider(
+                      create: (context) => UpcomingCubit()..getUpComingMovies(),
+                      child: BlocConsumer<UpcomingCubit, UpcomingState>(
+                        listener: (context, state) {
+                          // TODO: implement listener
+                        },
+                        builder: (context, state) {
+                          if (state is NowPlayingLoading) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: AppColor.white,
+                              ),
+                            );
+                          } else if (state is UpcomingFailure) {
+                            return Center(
+                              child: Text(
+                                'Error: ${state.messageError}}',
+                                style: TextStyle(color: AppColor.white),
+                              ),
+                            );
+                          } else if (state is UpcomingSuccess) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: Stack(
+                                children: [
+                                  ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: state.upcomingMoviesModel.length,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          final movie =
+                                              state.upcomingMoviesModel[index];
+                                          Navigator.pushNamed(
+                                            context,
+                                            MovieDetailsScreen.screenRoute,
+                                            arguments: movie,
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Stack(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "https://image.tmdb.org/t/p/w500${state.upcomingMoviesModel[index].posterPath}",
+                                                  fit: BoxFit.cover,
+                                                  height: 200,
+                                                ),
+                                              ),
+                                              Positioned(
+                                                bottom: -10,
+                                                left: 0,
+                                                child: Text(
+                                                  "${index + 1}",
+                                                  style: TextStyle(
+                                                    fontFamily: "Poppins",
+                                                    // color: Colors.redAccent,
+                                                    fontSize: 96,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle: FontStyle.normal,
+                                                    color: AppColor.navy,
+                                                  ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                bottom: -10,
+                                                left: 0,
+                                                child: Text(
+                                                  "${index + 1}",
+                                                  style: TextStyle(
+                                                    // color: Colors.redAccent,
+                                                    fontSize: 96,
+                                                    fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily: "Poppins",
+                                                    foreground: Paint()
+                                                      ..style =
+                                                          PaintingStyle.stroke
+                                                      ..color =
+                                                          Colors.blueAccent
+                                                      ..strokeWidth = 1,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                          // Always return a widget
+                          return SizedBox.shrink();
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+
+                    TabBar(
+                      physics: const BouncingScrollPhysics(),
+                      isScrollable: true,
+                      tabAlignment: TabAlignment.center,
+                      indicatorColor: AppColor.white,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      labelColor: AppColor.white,
+                      unselectedLabelColor: Colors.grey.shade700,
+                      tabs: mainTitleBar
+                          .map(
+                            (name) => Tab(
+                              child: Text(
+                                name.title,
+                                style: const TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    SizedBox(height: 10),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          NowPlayingScreen(),
+                          UpcomingScreen(),
+                          TopRatedMoviesScreen(),
+                          PopularScreen(),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),

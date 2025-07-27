@@ -15,6 +15,7 @@ class PopularScreen extends StatefulWidget {
 class _PopularScreenState extends State<PopularScreen> {
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return BlocConsumer<PopularCubit, PopularState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -65,7 +66,7 @@ class _PopularScreenState extends State<PopularScreen> {
                           ClipRRect(
                             borderRadius: BorderRadiusGeometry.circular(10),
                             child: CachedNetworkImage(
-                              height: 200,
+                              height: screenSize.height * 0.22,
                               imageUrl:
                                   'https://image.tmdb.org/t/p/w500${state.popularMoviesModel[index].posterPath}',
                               fit: BoxFit.cover,
@@ -92,7 +93,8 @@ class _PopularScreenState extends State<PopularScreen> {
                                     size: 13,
                                   ),
                                   Text(
-                                    "${state.popularMoviesModel[index].voteAverage.toStringAsFixed(1)}",
+                                    state.popularMoviesModel[index].voteAverage
+                                        .toStringAsFixed(1),
                                     style: TextStyle(
                                       color: AppColor.yellow,
                                       fontWeight: FontWeight.w600,

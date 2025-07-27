@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/app_data.dart';
 import 'package:movies_app/core/theme/app_color.dart';
+import 'package:movies_app/movies/data/models/title_bar.dart';
 import 'package:movies_app/movies/presentation/controllers/movie_details_cubit/movie_details_cubit.dart';
 import 'package:movies_app/movies/presentation/controllers/watch_list/watch_list_cubit.dart';
 import 'package:movies_app/movies/presentation/widgets/movie_details.dart';
@@ -32,15 +32,22 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           BlocConsumer<WatchListCubit, WatchListState>(
             listener: (context, state) {},
             builder: (context, state) {
-              final cubit = context.read<WatchListCubit>();
-              final isInWatchList = cubit.isInWatchList(selectedMovie);
+              final isInWatchList = context
+                  .watch<WatchListCubit>()
+                  .isInWatchList(selectedMovie);
               return IconButton(
-                onPressed: () => cubit.displayWatchList(selectedMovie),
+                onPressed: () {
+                  setState(() {
+                    context.read<WatchListCubit>().displayWatchList(
+                      selectedMovie,
+                    );
+                  });
+                },
                 icon: Icon(
                   isInWatchList
                       ? Icons.bookmark_rounded
                       : Icons.bookmark_border_rounded,
-                  color: isInWatchList ? Colors.white : Colors.white,
+                  color: isInWatchList ? AppColor.white : AppColor.white,
                 ),
               );
             },
@@ -100,7 +107,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: screenSize.width * 0.02),
                     SizedBox(
                       width: screenSize.width * 0.6,
                       child: Text(
@@ -159,9 +166,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           ),
                           buildMovieMetaDataRow(
                             icon: Icons.access_time_rounded,
-                            movieData:
-                                state.movieDetails.runtime.toString() +
-                                " minutes",
+                            movieData: "${state.movieDetails.runtime} minutes",
                           ),
                           Container(
                             width: 1,
@@ -236,7 +241,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
       child: Text(
         content,
-        style: TextStyle(fontFamily: "Sora", fontSize: 15, color: Colors.grey),
+        style: TextStyle(
+          fontFamily: "Sora",
+          fontSize: 15,
+          color: Colors.grey,
+          height: 1.5,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }
@@ -248,7 +259,12 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
         SizedBox(width: 10),
         Text(
           movieData.toString(),
-          style: TextStyle(color: Colors.grey.shade400),
+          style: TextStyle(
+            color: Colors.grey.shade400,
+            fontFamily: "Sora",
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ],
     );

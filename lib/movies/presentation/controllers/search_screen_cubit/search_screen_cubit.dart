@@ -3,8 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movies_app/movies/data/models/movie.dart';
-import 'package:movies_app/movies/data/models/movies_details.dart';
-import 'package:movies_app/movies/data/models/search_response.dart';
 
 part 'search_screen_state.dart';
 

@@ -8,14 +8,17 @@ sealed class NowPlayingState extends Equatable {
 }
 
 final class NowPlayingInitial extends NowPlayingState {}
+
 final class NowPlayingLoading extends NowPlayingState {}
+
 final class NowPlayingFailure extends NowPlayingState {
   final String errorMessage;
-   const NowPlayingFailure( this.errorMessage);
+  const NowPlayingFailure(this.errorMessage);
 }
+
 final class NowPlayingSuccess extends NowPlayingState {
   final List<Movie> nowPlayingMovies;
+  final bool isLoadingMore;
 
-  const NowPlayingSuccess(this.nowPlayingMovies);
+  const NowPlayingSuccess(this.nowPlayingMovies, {this.isLoadingMore = false});
 }
-

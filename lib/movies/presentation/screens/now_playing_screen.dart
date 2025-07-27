@@ -13,8 +13,26 @@ class NowPlayingScreen extends StatefulWidget {
 }
 
 class _NowPlayingScreenState extends State<NowPlayingScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<NowPlayingCubit>().getNowPlayingMovies();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 200) {
+        context.read<NowPlayingCubit>().getNowPlayingMovies(loadMore: true);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final cubit = context.read<NowPlayingCubit>();
+
     return BlocConsumer<NowPlayingCubit, NowPlayingState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -35,14 +53,14 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           return Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: GridView.builder(
+              controller: _scrollController,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 8.0,
                 childAspectRatio: 6 / 12,
               ),
-              itemCount: state
-                  .nowPlayingMovies
-                  .length, // Replace with the actual number of items
+              itemCount: state.nowPlayingMovies.length,
+              // Replace with the actual number of items
               itemBuilder: (context, index) {
                 final selectedMovie = state.nowPlayingMovies[index];
                 return InkWell(
@@ -63,12 +81,11 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: CachedNetworkImage(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.22,
+                              height: screenSize.height * 0.22,
                               errorWidget: (context, url, error) =>
                                   Icon(Icons.error),
                               imageUrl:
-                                  'https://image.tmdb.org/t/p/w500${state.nowPlayingMovies[index].posterPath}',
+                                  'https://image.tmdb.org/t/p/w500${selectedMovie.posterPath}',
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -94,7 +111,9 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                     size: 13,
                                   ),
                                   Text(
-                                    state.nowPlayingMovies[index].voteAverage.toStringAsFixed(1),
+                                    selectedMovie.voteAverage.toStringAsFixed(
+                                      1,
+                                    ),
                                     style: TextStyle(
                                       color: Colors.yellow,
                                       fontWeight: FontWeight.w600,
@@ -110,7 +129,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        state.nowPlayingMovies[index].title,
+                        selectedMovie.title,
                         maxLines: 2,
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -122,7 +141,6 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                     ],
                   ),
                 );
-                // return SizedBox.shrink();
               },
             ),
           );

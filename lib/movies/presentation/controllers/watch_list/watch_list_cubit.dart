@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movies_app/movies/data/local/watch_list_using_shared_preference.dart';
@@ -23,6 +22,7 @@ class WatchListCubit extends Cubit<WatchListState> {
       emit(WatchListLoaded(watchList));
     }
   }
+
   /// display the watch list movies in the watch list screen.
   Future<void> displayWatchList(Movie movie) async {
     if (isInWatchList(movie)) {
@@ -31,11 +31,12 @@ class WatchListCubit extends Cubit<WatchListState> {
       watchList.add(movie);
     }
     await _savedMovies.saveMovies(watchList);
+    final updatedList = List<Movie>.from(watchList);
 
-    if (watchList.isEmpty) {
+    if (updatedList.isEmpty) {
       emit(WatchListEmpty());
     } else {
-      emit(WatchListLoaded(watchList));
+      emit(WatchListLoaded(updatedList));
     }
   }
 

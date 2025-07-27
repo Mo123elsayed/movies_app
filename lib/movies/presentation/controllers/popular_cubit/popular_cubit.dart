@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movies_app/movies/data/models/movie.dart';
-import 'package:movies_app/movies/data/models/popular_movies_model.dart';
 
 part 'popular_state.dart';
 

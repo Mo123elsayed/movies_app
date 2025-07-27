@@ -106,7 +106,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                                     size: 13,
                                   ),
                                   Text(
-                                    "${state.upcomingMoviesModel[index].voteAverage.toStringAsFixed(1)}",
+                                    state.upcomingMoviesModel[index].voteAverage.toStringAsFixed(1),
                                     style: TextStyle(
                                       color: Colors.yellow,
                                       fontWeight: FontWeight.w600,

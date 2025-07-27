@@ -32,7 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
       backgroundColor: AppColor.navy,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop('/'),
           icon: Icon(Icons.arrow_back_ios_new_rounded, color: AppColor.white),
         ),
         centerTitle: true,
@@ -113,7 +113,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   );
                 }
                 if (state is SearchScreenEmpty) {
-                  return Center(
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,7 +129,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           style: TextStyle(
                             color: AppColor.white,
                             fontFamily: "Sora",
-                            fontSize: 18,
+                            fontSize: 15,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -168,104 +169,114 @@ class _SearchScreenState extends State<SearchScreen> {
                             BlocProvider(
                               create: (context) => MovieDetailsCubit()
                                 ..getMovieDetails(state.movieDetails[index].id),
-                              child: BlocConsumer<MovieDetailsCubit, MovieDetailsState>(
-                                listener: (context, state) {
-                                  // TODO: implement listener
-                                },
-                                builder: (context, state) {
-                                  if (state is MovieDetailsSuccess) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: screenSize.width * 0.4,
-                                          child: Text(
-                                            state.movieDetails.title,
-                                            style: TextStyle(
-                                              color: AppColor.white,
-                                              fontFamily: 'Sora',
-                                              fontSize: 17,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: screenSize.height * 0.01,
-                                        ),
-                                        buildRowDetails(
-                                          childern: [
-                                            Icon(
-                                              Icons.star_border_rounded,
-                                              color: Colors.amberAccent,
-                                            ),
-                                            SizedBox(width: 4),
-                                            Text(
-                                              "${state.movieDetails.voteAverage.toStringAsFixed(1)}",
-                                              style: TextStyle(
-                                                color: Colors.amberAccent,
-                                                fontFamily: "Sora",
-                                                fontSize: 15,
+                              child:
+                                  BlocConsumer<
+                                    MovieDetailsCubit,
+                                    MovieDetailsState
+                                  >(
+                                    listener: (context, state) {
+                                      // TODO: implement listener
+                                    },
+                                    builder: (context, state) {
+                                      if (state is MovieDetailsSuccess) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: screenSize.width * 0.4,
+                                              child: Text(
+                                                state.movieDetails.title,
+                                                style: TextStyle(
+                                                  color: AppColor.white,
+                                                  fontFamily: 'Sora',
+                                                  fontSize: 17,
+                                                ),
                                               ),
                                             ),
+                                            SizedBox(
+                                              height: screenSize.height * 0.01,
+                                            ),
+                                            buildRowDetails(
+                                              childern: [
+                                                Icon(
+                                                  Icons.star_border_rounded,
+                                                  color: Colors.amberAccent,
+                                                ),
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  state.movieDetails.voteAverage
+                                                      .toStringAsFixed(1),
+                                                  style: TextStyle(
+                                                    color: Colors.amberAccent,
+                                                    fontFamily: "Sora",
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            buildRowDetails(
+                                              childern: [
+                                                Icon(
+                                                  Icons.movie_creation_outlined,
+                                                  color: AppColor.lightGrey,
+                                                ),
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  state
+                                                      .movieDetails
+                                                      .genres[0]
+                                                      .name,
+                                                  style: TextStyle(
+                                                    color: AppColor.lightGrey,
+                                                    fontFamily: "Sora",
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            buildRowDetails(
+                                              childern: [
+                                                Icon(
+                                                  Icons.access_time_rounded,
+                                                  color: AppColor.lightGrey,
+                                                ),
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  "${state.movieDetails.runtime} Minutes",
+                                                  style: TextStyle(
+                                                    color: AppColor.lightGrey,
+                                                    fontFamily: "Sora",
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            buildRowDetails(
+                                              childern: [
+                                                Icon(
+                                                  Icons.calendar_month,
+                                                  color: AppColor.lightGrey,
+                                                ),
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  state
+                                                      .movieDetails
+                                                      .releaseDate,
+                                                  style: TextStyle(
+                                                    color: AppColor.lightGrey,
+                                                    fontFamily: "Sora",
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ],
-                                        ),
-                                        buildRowDetails(
-                                          childern: [
-                                            Icon(
-                                              Icons.movie_creation_outlined,
-                                              color: AppColor.lightGrey,
-                                            ),
-                                            SizedBox(width: 4),
-                                            Text(
-                                              "${state.movieDetails.genres[0].name}",
-                                              style: TextStyle(
-                                                color: AppColor.lightGrey,
-                                                fontFamily: "Sora",
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        buildRowDetails(
-                                          childern: [
-                                            Icon(
-                                              Icons.access_time_rounded,
-                                              color: AppColor.lightGrey,
-                                            ),
-                                            SizedBox(width: 4),
-                                            Text(
-                                              "${state.movieDetails.runtime} Minutes",
-                                              style: TextStyle(
-                                                color: AppColor.lightGrey,
-                                                fontFamily: "Sora",
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        buildRowDetails(
-                                          childern: [
-                                            Icon(
-                                              Icons.calendar_month,
-                                              color: AppColor.lightGrey,
-                                            ),
-                                            SizedBox(width: 4),
-                                            Text(
-                                              "${state.movieDetails.releaseDate}",
-                                              style: TextStyle(
-                                                color: AppColor.lightGrey,
-                                                fontFamily: "Sora",
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  return Container();
-                                },
-                              ),
+                                        );
+                                      }
+                                      return Container();
+                                    },
+                                  ),
                             ),
                           ],
                         ),
