@@ -57,7 +57,7 @@ A special thanks to **Eng. Mohammed Selim** for his guidance and support through
 
 ## 📬 Contact  
 If you’d like to connect or collaborate:  
-- **LinkedIn:** [Your LinkedIn Profile](https://www.linkedin.com/in/mohamed-elsayed-135a17277/)  
+- **LinkedIn:** [LinkedIn Profile](https://www.linkedin.com/in/mohamed-elsayed-135a17277/)  
 - **Email:** muhammed.elsayed.usc@gmail.com 
 
 ---
