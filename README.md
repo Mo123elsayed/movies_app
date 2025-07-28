@@ -32,7 +32,11 @@ You can learn more about TMDB here: [https://www.themoviedb.org/](https://www.th
 
 ## 📸 Screenshots  
 
-
+<p align = "center">
+<img src="https://github.com/user-attachments/assets/c6518164-910e-4e8a-be8c-3a753d398464؟raw=true" width="300"/>
+<img src="https://github.com/user-attachments/assets/1c49e7c7-9fbf-4651-9c30-743737317e8b?raw=true" width = "300"/>
+<img src="https://github.com/user-attachments/assets/cdf315f2-9e62-4884-89b0-21e0ad159531?raw=true" width = "300"/>
+</p>
 
 
 ---
