@@ -45,9 +45,9 @@ You can learn more about TMDB here: [https://www.themoviedb.org/](https://www.th
 
 
 ## 🎥 Demo  
-> *(Optional)* Add a short demo video or GIF of the app in action.  
-Example:  
-[![Watch the demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+> 
+[![Watch the demo](![WhatsApp Image 2025-07-26 at 11 57 09 PM](https://github.com/user-attachments/assets/25ec7a1a-993b-4f8a-a71c-1b02cd30a83e)
+)](https://www.linkedin.com/posts/mohamed-elsayed-135a17277_flutter-mobileappdevelopment-learningbydoing-activity-7355167262409912320-UyJU?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEOaqPkBJkfCT8shuvOjwqL2W4OjyPf_xKI)
 
 ---
 
