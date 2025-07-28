@@ -43,9 +43,9 @@ You can learn more about TMDB here: [https://www.themoviedb.org/](https://www.th
 ---
 
 
-## 🎥 Demo  
+## 🎥 Watch a Demo about App
 >
-[![Watch the demo]](https://www.linkedin.com/posts/mohamed-elsayed-135a17277_flutter-mobileappdevelopment-learningbydoing-activity-7355167262409912320-UyJU?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEOaqPkBJkfCT8shuvOjwqL2W4OjyPf_xKI)
+[![Watch Video]](https://www.linkedin.com/posts/mohamed-elsayed-135a17277_flutter-mobileappdevelopment-learningbydoing-activity-7355167262409912320-UyJU?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEOaqPkBJkfCT8shuvOjwqL2W4OjyPf_xKI)
 
 
 ---
