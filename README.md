@@ -34,12 +34,11 @@ You can learn more about TMDB here: [https://www.themoviedb.org/](https://www.th
 
 > Add screenshots of your app here:  
 
-| Home Screen | Movie Details | Watchlist |
-|-------------|---------------|-----------|
-| ![Home](![WhatsApp Image 2025-07-26 at 11 57 09 PM(2)](https://github.com/user-attachments/assets/8e82ad53-3ef8-423a-bb5f-6a2715944ce0)
-)| ![Details](![WhatsApp Image 2025-07-26 at 11 57 08 PM(1)](https://github.com/user-attachments/assets/ea9e6a4d-a511-444e-aa62-5740839770b9)
-)| ![Watchlist](![WhatsApp Image 2025-07-26 at 11 57 08 PM](https://github.com/user-attachments/assets/681e8f7b-dd19-42c4-bf33-c88e3ac697ce)
-)|
+<p align="center">
+  <img src="![WhatsApp Image 2025-07-26 at 11 57 09 PM](https://github.com/user-attachments/assets/78df9b72-6c44-4eac-864f-94f8aae83144)" alt="Home Screen" width="30%" />
+  <img src="![WhatsApp Image 2025-07-26 at 11 57 08 PM(1)](https://github.com/user-attachments/assets/2d7f7257-0fa9-4d8a-8bc4-498ea610fbf6)" alt="Movie Details" width="30%" />
+  <img src="![WhatsApp Image 2025-07-26 at 11 57 08 PM](https://github.com/user-attachments/assets/344393af-8eb4-4eee-8145-d35bd1e2560c)" alt="Watchlist" width="30%" />
+</p>
 
 
 ---
