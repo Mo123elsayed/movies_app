@@ -37,9 +37,9 @@ You can learn more about TMDB here: [https://www.themoviedb.org/](https://www.th
 | Home Screen | Movie Details | Watchlist |
 |-------------|---------------|-----------|
 | ![Home](![WhatsApp Image 2025-07-26 at 11 57 09 PM(2)](https://github.com/user-attachments/assets/8e82ad53-3ef8-423a-bb5f-6a2715944ce0)
-) | ![Details](![WhatsApp Image 2025-07-26 at 11 57 08 PM(1)](https://github.com/user-attachments/assets/ea9e6a4d-a511-444e-aa62-5740839770b9)
-) || ![Watchlist](![WhatsApp Image 2025-07-26 at 11 57 08 PM](https://github.com/user-attachments/assets/681e8f7b-dd19-42c4-bf33-c88e3ac697ce)
-) |
+| ![Details](![WhatsApp Image 2025-07-26 at 11 57 08 PM(1)](https://github.com/user-attachments/assets/ea9e6a4d-a511-444e-aa62-5740839770b9)
+|| ![Watchlist](![WhatsApp Image 2025-07-26 at 11 57 08 PM](https://github.com/user-attachments/assets/681e8f7b-dd19-42c4-bf33-c88e3ac697ce)
+|
 
 
 ---
