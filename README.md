@@ -36,7 +36,6 @@ You can learn more about TMDB here: [https://www.themoviedb.org/](https://www.th
   <img src="https://github.com/user-attachments/assets/c778840f-7236-4ea0-964d-431bf05fddae" width="300"/>
   <img src="https://github.com/user-attachments/assets/1feeda05-c329-4578-85b2-49fe16d2c738" width="300"/>
   <img src="https://github.com/user-attachments/assets/c548469d-840f-40bb-868c-d4af10fba47a" width="300"/>
-  <img src="https://github.com/user-attachments/assets/2fd5d4c5-bf33-4f6c-baee-9a55ff433e79" width="300"/>
 </p>
 
 
